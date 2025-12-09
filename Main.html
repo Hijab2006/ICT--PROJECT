@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tractor Pull Competition - Final Perfected Replica</title>
+    
+    <style>
+        /* --- Global Reset and Base Styles --- */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            /* Light, cool background color */
+            background-color: #eaf2f5;
+            min-height: 100vh;
+            position: relative;
+            color: #333;
+        }
+
+        /* --- Layout and Structure --- */
+        .main-container {
+            position: relative;
+            /* Standard content width for large screens */
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 0 80px 0; /* Extra padding at the bottom for the fixed footer */
+            z-index: 10; /* Ensure content is above background graphics */
+        }
+
+        .central-modules {
+            width: 380px; /* Wider to match the reference image */
+            margin: 50px auto 0;
+            /* Center the module block */
+        }
+
+        /* --- Background Graphics Styling --- */
+        .background-graphics {
+            position: fixed; /* Fixed so the graphics don't scroll with the content */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Green/Grey Hill/Track Graphic (Complex Shape) */
+        .grass-hill {
+            position: absolute;
+            bottom: -100px;
+            left: 0;
+            width: 120%;
+            height: 700px;
+            /* Soft gradient and curve effect */
+            background: linear-gradient(to top, #719f71 0%, #a2c8a2 60%, #cce0cc 100%);
+            border-radius: 50%;
+            transform: translateX(-15%) rotate(-5deg);
+            opacity: 0.9;
+        }
+
+        /* START Flag and Tractor Graphic */
+        .finish-line-graphic {
+            position: absolute;
+            top: 10%;
+            right: 0;
+            color: #920000;
+            font-size: 200px;
+            font-weight: 900;
+            opacity: 0.6;
+            transform: scaleY(1.2); /* Gives it a stretched, impactful look */
+            pointer-events: none; /* Ignore mouse events */
+        }
+
+        .finish-line-graphic::before {
+            content: 'START';
+            display: block;
+            line-height: 0.8;
+        }
+
+        /* --- Module Styling --- */
+        .module {
+            background-color: white;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px; /* Slightly softer corners */
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* More subtle shadow */
+        }
+
+        /* Header/Call-to-Action Module (Top Red Banner) */
+        .module-cta-top {
+            background-color: #f7f7f7;
+            border: 1px solid #e0e0e0;
+            padding: 20px 15px;
+            text-align: center;
+        }
+
+        .module-cta-top .title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .module-cta-top .title span {
+            color: #d9534f; /* Red emphasis */
+        }
+
+        .module-cta-top a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #d9534f;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .module-cta-top a:hover {
+            background-color: #c9302c;
+        }
+
+        /* Standard Module Header */
+        .module-header {
+            font-weight: bold;
+            font-size: 1.1em;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+        }
+
+        /* Module Button Group */
+        .button-group a {
+            display: inline-block;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.95em;
+            font-weight: bold;
+            margin-right: 10px;
+            transition: opacity 0.2s;
+        }
+
+        .button-group a:hover {
+            opacity: 0.8;
+        }
+
+        .button-start {
+            background-color: #5cb85c; /* Green button */
+            color: white;
+        }
+
+        .button-rules {
+            background-color: #0275d8; /* Blue button */
+            color: white;
+        }
+
+        /* --- Leaderboard Styling --- */
+        .leaderboard-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.9em;
+            border-bottom: 1px dotted #f0f0f0;
+        }
+
+        .leaderboard-entry:last-of-type {
+            border-bottom: none;
+        }
+
+        .leaderboard-entry-header {
+            font-weight: bold;
+            color: #555;
+            padding-bottom: 5px;
+        }
+
+        .leaderboard-entry .team-name {
+            flex: 1;
+        }
+
+        .leaderboard-entry .score {
+            width: 80px;
+            text-align: right;
+        }
+
+        .highlight-row {
+            color: #d9534f; /* Highlight the user's team in red */
+            font-weight: bold;
+        }
+
+        .view-full-league {
+            display: block;
+            text-align: center;
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .view-full-league a {
+            color: #0275d8;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        /* --- School Edition Module --- */
+        .school-edition-module {
+            margin-top: 50px;
+            background-color: #fcfcfc;
+            border-color: #ccc;
+            text-align: center;
+        }
+
+        .school-edition-module ul {
+            list-style-type: disc; /* Use standard disc for appearance */
+            padding-left: 20px;
+            font-size: 0.9em;
+            line-height: 1.6;
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        .school-edition-module ul li {
+            margin-bottom: 5px;
+        }
+
+        .school-edition-module .learn-more {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #5cb85c; /* Green button */
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* --- Footer Bar --- */
+        .footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            /* Dark blue background with slight sheen */
+            background-color: #00427a;
+            color: white;
+            padding: 12px 20px;
+            font-size: 0.85em;
+            text-align: center;
+            z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-bar .links {
+            flex-grow: 1;
+            text-align: left;
+            margin-left: 10px;
+        }
+
+        .footer-bar a {
+            color: #a6d9ff;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        .footer-bar .copyright {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-graphics">
+        <div class="grass-hill"></div>
+        <div class="finish-line-graphic">
+            <p style="margin: 0; position: relative; top: -100px;">START</p>
+        </div>
+        </div>
+
+    <div class="main-container">
+        <div class="central-modules">
+
+            <div class="module module-cta-top">
+                <div class="title">
+                    Tractor Pull <span>Competition</span>
+                </div>
+                <p style="font-size: 0.8em; color: #555; margin: 5px 0 0 0;">View competition details and rules here.</p>
+                <a href="#">View Details</a>
+            </div>
+
+            <div class="module">
+                <div class="module-header">🏆 Young Team</div>
+                <div class="button-group">
+                    <a href="#" class="button-start">Start Now</a>
+                    <a href="#" class="button-rules">Team Rules</a>
+                </div>
+            </div>
+
+            <div class="module">
+                <div class="module-header">🤝 Made with Friends</div>
+                <div class="button-group">
+                    <a href="#" class="button-start">Start Now</a>
+                    <a href="#" class="button-rules">Team Rules</a>
+                </div>
+            </div>
+
+            <div class="module">
+                <div class="module-header">📊 League Standings</div>
+                
+                <div class="leaderboard-entry leaderboard-entry-header">
+                    <span class="team-name">Team</span>
+                    <span class="score" style="width: 60px;">Wins/Loss</span>
+                    <span class="score">Points</span>
+                </div>
+
+                <div class="leaderboard-entry highlight-row">
+                    <span class="team-name">1. Your Team</span>
+                    <span class="score" style="width: 60px;">10 / 2</span>
+                    <span class="score">600 p.</span>
+                </div>
+                
+                <div class="leaderboard-entry">
+                    <span class="team-name">2. Team Awesome</span>
+                    <span class="score" style="width: 60px;">9 / 3</span>
+                    <span class="score">550 p.</span>
+                </div>
+                <div class="leaderboard-entry">
+                    <span class="team-name">3. Green Machines</span>
+                    <span class="score" style="width: 60px;">8 / 4</span>
+                    <span class="score">500 p.</span>
+                </div>
+                <div class="leaderboard-entry">
+                    <span class="team-name">... (15 more entries)</span>
+                    <span class="score" style="width: 60px;">...</span>
+                    <span class="score">...</span>
+                </div>
+                
+                <div class="view-full-league">
+                    <a href="#">View Full League</a>
+                </div>
+            </div>
+
+            <div class="module school-edition-module">
+                <div class="module-header" style="text-align: center; border-bottom: none;">
+                    Tractor Pull School Edition Features
+                </div>
+                <ul>
+                    <li>User accounts for students and teachers.</li>
+                    <li>Integrated progress tracking and reporting tools.</li>
+                    <li>Curated lessons and curriculum materials.</li>
+                </ul>
+                <a href="#" class="learn-more">Learn More</a>
+                </div>
+
+        </div>
+    </div>
+
+    <div class="footer-bar">
+        <div class="links">
+            <a href="#">Home</a> |
+            <a href="#">Terms & Conditions</a> |
+            <a href="#">Privacy Policy</a> |
+            <a href="#">Contact</a> |
+            <a href="#">Support</a> |
+            <a href="#">Sitemap</a> |
+            <a href="#">FAQ</a>
+        </div>
+        <span class="copyright">© 2025 TractorPull Inc.</span>
+    </div>
+
+</body>
+</html>
